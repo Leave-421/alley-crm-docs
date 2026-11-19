@@ -1,0 +1,15 @@
+# CODEOWNERS — 경로별 담당자에게 PR 리뷰 요청이 자동으로 간다(접근 제한이 아니다).
+#
+# 소유자에는 사람 팀원 계정만 쓴다. Claude Code · AI 계정을 넣지 않는다.
+# 마지막에 맞는 줄이 이긴다. PR 작성자 본인은 GitHub이 리뷰어에서 자동으로 뺀다.
+# "Require review from Code Owners"는 켜지 않는다 — 머지 조건은 승인 1명 + CI다.
+#
+# TODO: 역할 분담이 정해지면 아래 주석을 풀고 계정을 채운다.
+#
+# *              @팀원1 @팀원2 @팀원3 @팀원4 @팀원5
+# /backend/      @
+# /frontend/     @
+# /docs/         @
+# /.github/      @
+# /.claude/      @
+# /CLAUDE.md     @

@@ -1,0 +1,8 @@
+.env
+.env.*
+secrets/
+*.pem
+.DS_Store
+.idea/
+.vscode/
+.claude/settings.local.json

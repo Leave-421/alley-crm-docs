@@ -1,0 +1,43 @@
+name: Feature
+description: 새로운 기능 또는 사용자 가치 추가
+title: "[Feature] "
+labels: ["feature"]
+body:
+  - type: input
+    id: requirement
+    attributes:
+      label: 요구사항 ID
+      description: "[요구사항 정의서](https://github.com/Leave-421/alley-crm-docs/blob/main/docs/03-requirements.md)의 ID. 여러 개면 쉼표로 구분합니다."
+      placeholder: "예: FR-RSV-01"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 문제 / 목적
+      description: 무엇을 해결하려는지 한두 줄이면 충분합니다.
+      placeholder: 사장님이 ... 할 수 없어 ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 완료 조건
+      description: "끝났는지 판단할 기준. [기능 명세](https://github.com/Leave-421/alley-crm-docs/blob/main/docs/04-features.md)의 인수 조건을 옮겨도 됩니다."
+      placeholder: |
+        - [ ] ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: 범위 메모
+      description: 포함할 것 · 하지 않을 것이 헷갈릴 때만 적습니다.
+      placeholder: |
+        - 포함: ...
+        - 제외: ...
+    validations:
+      required: false
