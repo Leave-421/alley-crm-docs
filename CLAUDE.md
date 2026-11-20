@@ -11,6 +11,7 @@
 | `docs/00-backlog.md` ~ `07-screens.md` | 백로그 · 문제 · 흐름 · 요구사항 · 기능 · 정책 · 데이터 · 화면 |
 | `docs/PRD.md` · `ARCHITECTURE.md` · `requirements-changes.md` | 제품 요약 · 구조 · 요구사항 변경 이력 |
 | `docs/plan/` | Git 전략 · 코드 컨벤션 · 환경 변수 가이드 |
+| `docs/research/` | 조사 자료 (결정 문서 아님, 근거 참고용) |
 
 ## 원칙
 
