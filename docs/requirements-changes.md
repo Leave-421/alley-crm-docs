@@ -2,6 +2,15 @@
 
 요구사항을 넣고 빼고 바꾼 이력을 날짜순으로 적는다. 최신이 위.
 
+## 2026-11-23 (9) · 이슈 분배 전 기술 · 운영 결정
+
+근거: [`reviews/decision-meeting-2026-11-23-9.md`](reviews/decision-meeting-2026-11-23-9.md) · [`ARCHITECTURE.md`](ARCHITECTURE.md)
+
+| 구분 | ID | 내용 |
+| --- | --- | --- |
+| 질문 | Q-01 닫힘 | 우선순위 초안(필수/여유)을 그대로 확정 |
+| 변경 | NFR-01 · 05 (문장 그대로) | 기술 구성 확정: React + JavaScript, 세션 쿠키 인증, SSE 실시간 알림. 요구사항 문장은 바꾸지 않고 ARCHITECTURE에 적음 |
+
 ## 2026-11-23 (8) · 오늘의 코스 · 보낸 가게 숨김 · 다음 코스 열림 시점
 
 근거: [`reviews/decision-meeting-2026-11-23-8.md`](reviews/decision-meeting-2026-11-23-8.md) · 규칙 [`05-policy.md`](05-policy.md) 「오늘의 코스」
