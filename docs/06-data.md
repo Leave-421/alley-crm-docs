@@ -16,6 +16,7 @@ erDiagram
     STORE ||--o{ RESERVATION : "받은 예약"
     RESERVATION |o--o{ RESERVATION : "다음 코스"
     VISITOR ||--o{ RECOMMENDATION_EXPOSURE : "본 추천"
+    VISITOR ||--o{ COURSE_PREVIEW_EVENT : "본 오늘의 코스"
     RECOMMENDATION_EXPOSURE |o--o{ RESERVATION : "소개 근거"
     STORE ||--o| COUPON_POLICY : "쿠폰 행사"
     CUSTOMER ||--o{ COUPON : "받은 쿠폰"
@@ -155,6 +156,16 @@ erDiagram
 | --- | --- |
 | exposure_id, type, reason, created_at | 거절(사유 선택) · 리롤. 순위에는 쓰지 않음 |
 
+**COURSE_PREVIEW_EVENT (오늘의 코스 노출 · 클릭)** — FR-CRS-07 · 11, 11-23 (8)
+
+| 필드 | 설명 |
+| --- | --- |
+| visitor_id, type, created_at | 노출 · 클릭 |
+| store_ids | 코스의 가게 3곳(순서대로) |
+| day_type, time_band | 평일 · 주말, 시간대 구간 |
+
+추천 노출(RECOMMENDATION_EXPOSURE)과 섞지 않는다. 수락률 분모와 소개 기간 시작에 쓰지 않는다.
+
 ### 쿠폰
 
 **COUPON_POLICY (쿠폰 행사)** — FR-CPN-01 · 11
@@ -254,6 +265,7 @@ erDiagram
 | --- | --- | --- |
 | 이동 | RESERVATION(방문) | 같은 손님이 같은 날 연달아 방문 처리된 두 가게 |
 | 같이 간 비율, 기대 대비 비율 | 이동, RESERVATION(방문) | 05-policy 「다음 방문 추천」 |
+| 오늘의 코스 | RESERVATION(방문) | 같은 손님이 같은 날 이어서 방문 처리된 세 가게. 05-policy 「오늘의 코스」 |
 | 손님 등급 | CUSTOMER_CARD | 05-policy 「손님 등급」 |
 | 세그먼트 | RESERVATION(방문) | 손님이 이용한 전체 가게 중 특정 가게를 이용한 비율 |
 | 수락 | RESERVATION(소개 + 방문) | 소개 예약이 방문 처리된 건 |
@@ -270,7 +282,7 @@ erDiagram
 3. 예약 (학기 중 9~11월, 실제와 비슷한 시간 분포, 금요일 저녁 주점 집중 패턴)
 4. 일부 취소 (10% 안팎, 하루 전 취소 · 당일 취소, 사유 포함)
 5. 방문 처리 (방문 금액 생성)
-6. 같은 날 연속 방문 (20대 카페 → 디저트 패턴)
+6. 같은 날 연속 방문 (20대 카페 → 디저트 패턴. 오늘의 코스가 보이도록 3곳 이어 방문도 포함)
 7. 이동 통계
 8. 추천 결과 (05-policy 「다음 방문 추천」 계산)
 9. 추천 노출 · 예약 전환 (노출 시각은 이어지는 예약의 신청 시각보다 앞서게 만들고, 방문자 ID를 붙임)
