@@ -17,7 +17,8 @@ erDiagram
     RESERVATION |o--o{ RESERVATION : "다음 코스"
     VISITOR ||--o{ RECOMMENDATION_EXPOSURE : "본 추천"
     VISITOR ||--o{ COURSE_PREVIEW_EVENT : "본 오늘의 코스"
-    RECOMMENDATION_EXPOSURE |o--o{ RESERVATION : "소개 근거"
+    RESERVATION ||--o{ COURSE_PROPOSAL : "정식 코스 제안"
+    COURSE_PROPOSAL |o--o{ RESERVATION : "소개 근거"
     STORE ||--o| COUPON_POLICY : "쿠폰 행사"
     CUSTOMER ||--o{ COUPON : "받은 쿠폰"
     COUPON |o--o| RESERVATION : "적용"
@@ -119,18 +120,19 @@ erDiagram
 | start_at, party_size | |
 | status | 신청 · 확정 · 방문 · 취소 |
 | cancel_reason | 손님 취소 · 가게 거절 · 자동 취소. 자동 거절은 '가게 거절' |
-| requested_at | 손님 신청 시각. 소개 7일 · 쿠폰 7일 판단 기준 |
+| requested_at | 손님 신청 시각. 소개 예약 신청 마감(기준 가게 예약일 당일 종료) · 쿠폰 7일 판단 기준 |
 | confirmed_at, visited_at, canceled_at | |
 | pending_start_at, pending_party_size | 변경 신청 중일 때 바꿀 값. 승인되면 반영, 거절 · 자동 거절이면 지움 |
 | deposit_amount, refund_amount | 예약금과 환불액 |
 | visit_amount | 방문 처리 때 사장님이 넣은 결제 금액(쿠폰 할인 전) |
 | delay_eta | 지연 입력 도착 시간. 비회원 파기 대상 |
 | course_root_id | '다음 코스로 예약하기'로 만든 예약만 기준 가게 예약 id를 가짐(11-23 (5)) |
-| referral_exposure_id | 소개로 판정된 경우, 근거가 된 추천 노출 |
-| sender_store_id | 보낸 가게. 조건을 채우는 기준 가게가 없으면 비움(05-policy 「소개 판정」) |
+| course_proposal_id | '다음 코스로 예약하기'로 기준 가게 예약일 당일이 끝나기 전에 신청한 경우, 사용한 정식 코스 제안 id. 기준 예약 id는 `course_root_id` |
+| sender_store_id | 보낸 가게 = 제안을 만든 기준 예약(`course_root_id`)의 가게. 소개 후보가 아니면 비움(05-policy 「소개 판정」) |
 
-- 소개 여부: `referral_exposure_id`가 있으면 소개다. 신청 시각에 판정한다.
-- 보낸 가게는 기준 가게의 방문 처리가 나중에 될 수 있으므로, 추천 가게 예약이 방문 처리될 때 다시 확인해 채운다.
+- 소개 후보: `course_proposal_id`가 있으면 소개 후보다. 신청 시각에, 신청 당시 기준 예약일로 판정한다. 뒤에 기준 예약일이 바뀌어도 이미 신청한 예약의 판정은 바뀌지 않는다(11-24 (2)).
+- 소개 확정: 소개 후보 예약이 방문 처리되면 예약 건당 한 번 확정한다. 기준 가게 예약이 취소 · 거절되거나 방문하지 않았어도 보낸 가게는 그대로 둔다.
+- 지도 추천 · 오늘의 코스 노출, 일반 예약, 쿠폰은 `course_proposal_id`를 채우지 않는다.
 
 ### 추천 기록
 
@@ -140,7 +142,7 @@ erDiagram
 | --- | --- |
 | visitor_id, store_id, clicked_at | |
 
-**RECOMMENDATION_EXPOSURE (추천 노출)** — FR-CRS-07, FR-ANL-06
+**RECOMMENDATION_EXPOSURE (추천 노출)** — FR-CRS-07
 
 | 필드 | 설명 |
 | --- | --- |
@@ -148,13 +150,23 @@ erDiagram
 | base_store_id, recommended_store_id | 기준 가게 · 추천 가게 |
 | rank, page | 순위, 리롤 몇 번째인지 |
 | badge, reason_type | '방문 데이터 기반' / '지역 인기 가게', 문구 종류 |
-| first_shown_at, last_shown_at | 같은 손님(연결 전에는 같은 방문자) · 기준 가게 · 추천 가게 조합은 첫 노출부터 7일 동안 1건. 그 안의 재노출은 `last_shown_at`만 바꿈 |
+| shown_at | 노출 시각 |
+
+지도 추천 노출 · 리롤은 탐색 기록이다. 소개 판정과 수락률에 쓰지 않는다(11-24 (2)).
+
+**COURSE_PROPOSAL (정식 코스 제안)** — FR-STL-01, FR-ANL-06
+
+| 필드 | 설명 |
+| --- | --- |
+| id | 제안 ID. 코스 예약의 `course_proposal_id`가 가리킨다 |
+| base_reservation_id, recommended_store_id | 기준 예약 · 추천 가게. 이 조합당 1건(수락률 분모) |
+| first_shown_at | 기준 가게 예약 신청 뒤 실제로 처음 표시한 시각. 리롤로 다시 표시돼도 새로 만들지 않음 |
 
 **RECOMMENDATION_FEEDBACK (거절 · 리롤)** — FR-CRS-06
 
 | 필드 | 설명 |
 | --- | --- |
-| exposure_id, type, reason, created_at | 거절(사유 선택) · 리롤. 순위에는 쓰지 않음 |
+| exposure_id, type, created_at | 거절 · 리롤(사유는 받지 않음). 순위에는 쓰지 않음 |
 
 **COURSE_PREVIEW_EVENT (오늘의 코스 노출 · 클릭)** — FR-CRS-07 · 11, 11-23 (8)
 
@@ -164,7 +176,7 @@ erDiagram
 | store_ids | 코스의 가게 3곳(순서대로) |
 | day_type, time_band | 평일 · 주말, 시간대 구간 |
 
-추천 노출(RECOMMENDATION_EXPOSURE)과 섞지 않는다. 수락률 분모와 소개 기간 시작에 쓰지 않는다.
+추천 노출(RECOMMENDATION_EXPOSURE)과 섞지 않는다. 탐색 기록이며 소개 판정과 수락률에 쓰지 않는다.
 
 ### 쿠폰
 
@@ -217,7 +229,7 @@ erDiagram
 | 필드 | 설명 |
 | --- | --- |
 | reservation_id | 소개 예약. 방문 처리 때 생성 |
-| receiving_store_id, sender_store_id | 낸 가게, 보낸 가게(없을 수 있음) |
+| receiving_store_id, sender_store_id | 낸 가게, 보낸 가게(제안을 만든 기준 예약의 가게) |
 | visit_amount, coupon_discount, fee_base | 결제 금액, 쿠폰 할인, 수수료 계산 금액(할인 후) |
 | fee_rate, fee_amount | 생성 시점의 수수료율과 금액 |
 | coupon_cost | 쿠폰 비용(정액 할인액 또는 서비스 환산 금액). 수수료와 따로 기록 |
@@ -268,7 +280,7 @@ erDiagram
 | 오늘의 코스 | RESERVATION(방문) | 같은 손님이 같은 날 이어서 방문 처리된 세 가게. 05-policy 「오늘의 코스」 |
 | 손님 등급 | CUSTOMER_CARD | 05-policy 「손님 등급」 |
 | 세그먼트 | RESERVATION(방문) | 손님이 이용한 전체 가게 중 특정 가게를 이용한 비율 |
-| 수락 | RESERVATION(소개 + 방문) | 소개 예약이 방문 처리된 건 |
+| 수락 | COURSE_PROPOSAL, RESERVATION(소개 + 방문) | 정식 코스 제안 중 소개가 확정된 제안. 분모는 COURSE_PROPOSAL 건수, 0이면 표시하지 않음 |
 | 수락률 · 재방문율 · 취소율 · 쿠폰 지표 | 위 기록들 | 03-requirements FR-ANL-06 · 07 · 09 |
 
 ## 가상 데이터 생성
@@ -285,7 +297,7 @@ erDiagram
 6. 같은 날 연속 방문 (20대 카페 → 디저트 패턴. 오늘의 코스가 보이도록 3곳 이어 방문도 포함)
 7. 이동 통계
 8. 추천 결과 (05-policy 「다음 방문 추천」 계산)
-9. 추천 노출 · 예약 전환 (노출 시각은 이어지는 예약의 신청 시각보다 앞서게 만들고, 방문자 ID를 붙임)
+9. 추천 노출 · 정식 코스 제안 · 예약 전환 (제안 표시 시각은 기준 가게 예약 신청 뒤, 코스 예약 신청보다 앞서게 만들고, 방문자 ID를 붙임)
 10. 소개 판정 · 수수료 · 월 정산
 11. 대시보드 지표 계산 (코스 추천 이용자의 재방문율 패턴은 시뮬레이션임을 밝힘)
 
