@@ -49,7 +49,8 @@ erDiagram
 | --- | --- |
 | id, region_id, name | 가게 이름은 가상 |
 | category | 8개 업종 중 하나 |
-| map_x, map_y | 3D 골목 보드 좌표 |
+| alley | 소속 골목(정문 앞 · 중앙 · 뒷길, 11-24 (4)) |
+| map_x, map_y | 골목 안 표시 좌표 |
 | real_lat, real_lng, real_verified | 실제 좌표(검증된 경우만). 검증 안 된 가게는 길찾기 대신 미리보기(FR-MAP-09) |
 | join_status | 가입 신청 · 승인 · 거절 · 탈퇴 |
 | business_status, business_status_changed_at | 영업 · 휴업 · 중단과 바뀐 시각. 휴업 · 중단이면 추천 후보에서 빠지고, 그 가게 미사용 쿠폰은 적용 취소, 30일 제한은 해제(05-policy) |
