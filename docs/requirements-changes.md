@@ -2,6 +2,14 @@
 
 요구사항을 넣고 빼고 바꾼 이력을 날짜순으로 적는다. 최신이 위.
 
+## 2026-11-24 (6) · 반응형 웹앱
+
+근거: [`reviews/decision-meeting-2026-11-24-6.md`](reviews/decision-meeting-2026-11-24-6.md)
+
+| 구분 | ID | 내용 |
+| --- | --- | --- |
+| 변경 | NFR-01 | 웹앱(앱 설치 없음), 모바일 우선 반응형. 데스크톱 넓은 화면에서도 같은 기능 · 같은 흐름. 인수 조건 #3 추가 |
+
 ## 2026-11-24 (5) · 목업 갱신 반영
 
 근거: [`reviews/decision-meeting-2026-11-24-5.md`](reviews/decision-meeting-2026-11-24-5.md) · 화면 [`07-screens.md`](07-screens.md)
