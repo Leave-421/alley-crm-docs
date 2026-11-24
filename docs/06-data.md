@@ -159,6 +159,7 @@ erDiagram
 | 필드 | 설명 |
 | --- | --- |
 | id, visitor_id | 로그인 전에도 기록. 손님은 VISITOR를 거쳐 잇는다 |
+| display_id | 프론트가 추천 카드 묶음을 그릴 때마다 만드는 표시 ID(UUID). (방문자, 표시 ID, 추천 가게)당 1건 — 같은 표시의 재전송만 거르고, 다시 그린 노출은 모두 남긴다(개발 저장소 이슈 #120 E 요청) |
 | base_store_id, recommended_store_id | 기준 가게 · 추천 가게 |
 | rank, page | 순위, 리롤 몇 번째인지 |
 | badge, reason_type | '방문 데이터 기반' / '지역 인기 가게', 문구 종류 |
