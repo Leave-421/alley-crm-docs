@@ -1,7 +1,7 @@
 # 데이터 설계
 
 > 상태: 초안 (2026-11-23). 기획 결정을 Entity · 관계 · 상태로 옮긴 것이다. 컬럼 이름과 타입은 개발 저장소의 계약 문서(`docs/CONTRACTS.md`)가 최종 기준이고, 이 문서는 그 출발점이다.
-> 규칙과 숫자는 [`05-policy.md`](05-policy.md), 요구사항은 [`03-requirements.md`](03-requirements.md)를 따른다. 근거 기록: [11-23 (5)](reviews/decision-meeting-2026-11-23-5.md) 외 `reviews/`.
+> 규칙과 숫자는 [`05-policy.md`](05-policy.md), 요구사항은 [`03-requirements.md`](03-requirements.md)를 따른다. 근거 기록: [11-23 (5)](reviews/decision-meeting-2026-11-23-5.md) · [11-24 (5)](reviews/decision-meeting-2026-11-24-5.md)(가게 정보 · 영업 상태 · 공유 항목) 외 `reviews/`.
 
 ## 한눈에
 
@@ -52,12 +52,23 @@ erDiagram
 | alley | 소속 골목(정문 앞 · 중앙 · 뒷길, 11-24 (4)) |
 | map_x, map_y | 골목 안 표시 좌표 |
 | real_lat, real_lng, real_verified | 실제 좌표(검증된 경우만). 검증 안 된 가게는 길찾기 대신 미리보기(FR-MAP-09) |
-| join_status | 가입 신청 · 승인 · 거절 · 탈퇴 |
-| business_status, business_status_changed_at | 영업 · 휴업 · 중단과 바뀐 시각. 휴업 · 중단이면 추천 후보에서 빠지고, 그 가게 미사용 쿠폰은 적용 취소, 30일 제한은 해제(05-policy) |
-| reservation_enabled | 예약 가능 여부 |
+| join_status | 가입 신청 · 승인 · 거절 · 탈퇴 신청 · 탈퇴. 탈퇴 신청은 사장님이 신청하고 상인회가 처리하기 전 상태(11-24 (5)) |
+| address | 주소. 상인회가 관리(11-24 (5)) |
+| business_status, business_status_changed_at | 영업 · 휴업 · 중단과 바뀐 시각. 사장님이 바꾼다(11-24 (5)). 휴업 · 중단이면 추천 후보에서 빠지고, 그 가게 미사용 쿠폰은 적용 취소, 30일 제한은 해제(05-policy) |
+| reservation_enabled | 예약 가능 여부(예약 받기: 받는 중 · 잠시 멈춤). 사장님이 바꾼다(11-24 (5)) |
+| open_time, close_time | 영업 시작 · 종료 시각. 필수, 예약 가능 시간 계산 기준(FR-STO-02) |
+| closed_days | 휴무일(요일, 연중무휴 가능). 필수, 예약 가능 시간 계산 기준(FR-STO-02) |
+| intro | 한 줄 소개(여유) |
+| menu_items | 대표 메뉴(여유) |
+| amenities | 편의 정보, 여러 개 선택(여유) |
+| seats | 좌석 수(여유) |
+| photos | 가게 사진, 최대 3장(여유) |
 | slot_minutes, capacity_per_slot, booking_window_days | 슬롯 단위, 동시에 받는 예약 수, 예약 가능 기간 |
 | cancel_deadline_hours | 취소 마감(예약 시각 몇 시간 전). 24 이하로만 정할 수 있다(예약 시각 24시간 전보다 이르게 못 잡음) |
 | deposit_per_person | 인원당 예약금. 0 가능 |
+| max_party_size | 한 팀 최대 인원. 넘는 예약 신청은 거절(FR-RSV-05, 11-24 (5)) |
+| late_cancel_refund_rate | 하루 전이 지난 뒤 취소의 환불 비율. 사장님이 정하고, 비어 있으면 권역 설정값(기본값)을 씀(FR-RSV-05 · 06, 11-24 (5)) |
+| price_range | 가격대(예: 1인 9,000 ~ 12,000원)(여유, 11-24 (5)) |
 
 **ACCOUNT (계정)** — FR-AUTH
 
@@ -108,7 +119,7 @@ erDiagram
 
 | 필드 | 설명 |
 | --- | --- |
-| region_id, item, enabled | 상인회가 항목별로 켜고 끔. 이름 · 연락처는 끌 수 없음 |
+| region_id, item, enabled | 상인회가 항목별로 켜고 끔(인원 · 방문 일시 · 성별·연령대). 이름 · 연락처 · 방문한 가게 목록은 끌 수 없고 항상 켜짐(11-24 (5)) |
 
 ### 예약
 
