@@ -1,6 +1,6 @@
 # 요구사항 정의서
 
-> 상태: **초안** (2026-11-24 개정). 우선순위는 팀 확인 전이다.
+> 상태: 2026-11-24 개정. 우선순위는 11-23(9)에 확정했다(Q-01).
 > 기준: [`docs/plan/v1 결정 정리.md`](plan/v1%20결정%20정리.md)와 결정 회의 기록([11-18](reviews/decision-meeting-2026-11-18.md) · [11-19](reviews/decision-meeting-2026-11-19.md) · [11-20](reviews/decision-meeting-2026-11-20.md) · [11-23](reviews/decision-meeting-2026-11-23.md) · [11-23 (2)](reviews/decision-meeting-2026-11-23-2.md) · [11-23 (3)](reviews/decision-meeting-2026-11-23-3.md) · [11-23 (4)](reviews/decision-meeting-2026-11-23-4.md) · [11-23 (5)](reviews/decision-meeting-2026-11-23-5.md) · [11-23 (6)](reviews/decision-meeting-2026-11-23-6.md) · [11-23 (7)](reviews/decision-meeting-2026-11-23-7.md) · [11-23 (8)](reviews/decision-meeting-2026-11-23-8.md) · [11-23 (9)](reviews/decision-meeting-2026-11-23-9.md) · [11-24](reviews/decision-meeting-2026-11-24.md) · [11-24 (2)](reviews/decision-meeting-2026-11-24-2.md) · [11-24 (3)](reviews/decision-meeting-2026-11-24-3.md) · [11-24 (4)](reviews/decision-meeting-2026-11-24-4.md)). 날짜가 늦은 기록이 우선하고, 같은 날은 번호가 큰 기록이 우선한다(예: 11-23 (6) → 11-23 (5) → 11-23 (4) → 11-23 (3) → 11-23 (2) → 11-23).
 > 기록으로 정해지지 않은 부분은 요구사항 문장 끝에 `[Q-번호]`로 표시하고 「열린 질문」에 모았다. 바뀐 이력은 [`requirements-changes.md`](requirements-changes.md)에 있다.
 
