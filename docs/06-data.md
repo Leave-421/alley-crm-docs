@@ -27,6 +27,10 @@ erDiagram
     STORE ||--o{ CUSTOMER_CARD : "고객 카드"
     CUSTOMER ||--o{ CUSTOMER_CARD : ""
     WALLET ||--o{ WALLET_TX : "거래 내역"
+    REGION ||--o{ ASSOCIATION_COUPON_EVENT : "상인회 쿠폰 행사"
+    ASSOCIATION_COUPON_EVENT ||--o{ COUPON : "발급"
+    RESERVATION ||--o{ VISIT_REPORT : "금액 · 미처리 신고"
+    VISIT_REPORT ||--o| VISIT_AMOUNT_CORRECTION : "금액 정정"
 ```
 
 - 손님은 회원과 비회원을 한 `CUSTOMER`로 다룬다. 회원은 계정으로, 비회원은 전화번호로 식별한다(FR-CUS-02).
@@ -145,6 +149,7 @@ erDiagram
 - 소개 후보: `course_proposal_id`가 있으면 소개 후보다. 신청 시각에, 신청 당시 기준 예약일로 판정한다. 뒤에 기준 예약일이 바뀌어도 이미 신청한 예약의 판정은 바뀌지 않는다(11-24 (2)).
 - 소개 확정: 소개 후보 예약이 방문 처리되면 예약 건당 한 번 확정한다. 기준 가게 예약이 취소 · 거절되거나 방문하지 않았어도 보낸 가게는 그대로 둔다.
 - 지도 추천 · 오늘의 코스 노출, 일반 예약, 쿠폰은 `course_proposal_id`를 채우지 않는다.
+- 늦은 방문 처리: 상인회가 '맞음'으로 기록한 미처리 신고(VISIT_REPORT)가 있는 자동 취소 예약만 `status`를 취소 → 방문으로 바꿀 수 있다. 이때 `visit_amount` · `visited_at`을 채우고 소개 판정 · 수수료가 방문 처리와 같이 진행된다(FR-STL-09, 11-25 (5)). 자동 취소 때 '적용 취소'된 COUPON은 `status`를 '예약에 적용됨'으로 되돌리고, `used_at`은 사장님 사용 확인 때 따로 채운다. `visit_amount`는 금액 신고로 정정해도 바꾸지 않는다(VISIT_AMOUNT_CORRECTION).
 
 ### 추천 기록
 
@@ -208,14 +213,33 @@ erDiagram
 | conditions | 사장님이 정한 조건 |
 | total_quantity, issued_count | 총수량과 발급 수. 동시 요청에도 넘지 않게 원자적으로 늘림(NFR-09) |
 
-**COUPON (발급된 쿠폰)** — FR-CPN-03 ~ 10
+**ASSOCIATION_COUPON_EVENT (상인회 쿠폰 행사)** — FR-CPN-12 ~ 14, 11-25 (5)
+
+| 필드 | 설명 |
+| --- | --- |
+| id, region_id | 상인회(권역)가 만든 행사 |
+| benefit_type | 정액 할인 · 정률 할인 (서비스 제공 없음) |
+| discount_amount | 정액 할인 금액 |
+| discount_rate, max_discount_amount | 정률 할인율과 최대 할인액. 상인회 쿠폰은 정률 할인이면 최대 할인액 필수 |
+| total_quantity, issued_count | 수량과 발급 수. 가게 쿠폰과 같이 동시 요청에도 넘지 않게 원자적으로 늘림 |
+| eligible_store_scope, eligible_store_ids | 쓸 수 있는 가게: '모든 참여 가게' 또는 상인회가 고른 가게 목록 |
+| issue_start_at, issue_end_at | 받을 수 있는 기간 |
+| valid_start_at, valid_end_at | 쓸 수 있는 기간(유효기간). 예약 신청 시각으로 판단 |
+| reserved_budget | 만들 때 공동 기금에서 잡아 둔 예산 = 수량 × 한 장 최대 할인액. 기금 잔액보다 크면 만들 수 없음 |
+| confirmed_at, stopped_at | 확정 시각(값이 있으면 값 변경 불가)과 중단 시각(새 발급만 멈춤, 받은 쿠폰은 유효기간까지 유지) |
+
+- 쓰지 않은 예산은 쓸 수 있는 기간이 끝날 때(`valid_end_at`) 기금으로 돌려준다(WALLET_TX '기금 예산 해제'). 중단한 행사(`stopped_at`)도 받은 쿠폰을 유효기간까지 쓰므로 같은 때 돌려준다(11-25 (5)).
+
+**COUPON (발급된 쿠폰)** — FR-CPN-03 ~ 10, 13 · 14
 
 | 필드 | 설명 |
 | --- | --- |
 | id, customer_id | 회원만 |
-| coupon_policy_id, target_store_id | 받은 쿠폰 행사와 혜택을 주는 가게 |
-| source_base_store_id, source_exposure_id | 받을 때의 추천 기준 가게와 추천 노출. 나중에 바뀌지 않음 |
-| downloaded_at, expires_at | 만료 = 다운로드 + 가게가 정한 기간(valid_days) × 24시간 |
+| issuer_kind | 가게 쿠폰 · 상인회 쿠폰 (11-25 (5) 추가). 상인회 쿠폰 할인은 공동 기금이 부담 |
+| coupon_policy_id, target_store_id | 받은 쿠폰 행사와 혜택을 주는 가게. 가게 쿠폰만 채움 |
+| association_event_id | 받은 상인회 쿠폰 행사. 상인회 쿠폰만 채움. 같은 행사 · 같은 회원은 1장 |
+| source_base_store_id, source_exposure_id | 받을 때의 추천 기준 가게와 추천 노출. 나중에 바뀌지 않음. 가게 쿠폰만 채움 |
+| downloaded_at, expires_at | 가게 쿠폰 만료 = 다운로드 + 가게가 정한 기간(valid_days) × 24시간. 상인회 쿠폰 만료 = 행사의 유효기간 끝(valid_end_at) |
 | status | 다운로드됨 · 예약에 적용됨 · 사용 완료 · 기간 만료 · 적용 취소 |
 | reservation_id | 적용된 예약 |
 | discount_applied | 실제로 깎은 금액(정액은 방문 금액까지, 정률은 1원 미만 버림 · 최대 할인액까지) |
@@ -230,7 +254,7 @@ erDiagram
 | 필드 | 설명 |
 | --- | --- |
 | id, owner_type, owner_id | 회원 손님 · 가게 · 상인회 기금. 비회원은 지갑이 없음 |
-| balance | 가게는 마이너스 가능(수수료 차감, 11-25 (4)). 회원 손님은 마이너스 불가 |
+| balance | 가게는 마이너스 가능(수수료 차감, 11-25 (4)). 회원 손님과 상인회 기금은 마이너스 불가(기금은 11-25 (5)) |
 
 **WALLET_TX (거래 내역)** — FR-RSV-08, FR-STL-02
 
@@ -238,7 +262,7 @@ erDiagram
 | --- | --- |
 | id, wallet_id | 비회원 예약금은 지갑 없이 `guest_phone`으로 기록 |
 | guest_phone | 비회원 가상 납부 · 환불 기록용 |
-| type | 충전(회원 · 가게) · 예약금 납부 · 예약금 환불 · 소개 수수료 차감 · 기금 입금 |
+| type | 충전(회원 · 가게) · 예약금 납부 · 예약금 환불 · 소개 수수료 차감 · 기금 입금. 11-25 (5)에 새 값 추가: 기금 예산 잡기 · 기금 예산 해제(상인회 쿠폰 행사), 수수료 차액 차감 · 수수료 차액 기금 입금(금액 정정) |
 | amount, reservation_id, created_at | |
 
 **REFERRAL_FEE (소개 수수료)** — FR-STL-02 ~ 05
@@ -249,15 +273,38 @@ erDiagram
 | receiving_store_id, sender_store_id | 낸 가게, 보낸 가게(제안을 만든 기준 예약의 가게) |
 | visit_amount, coupon_discount, fee_base | 결제 금액, 쿠폰 할인, 수수료 계산 금액(할인 후) |
 | fee_rate, fee_amount | 생성 시점의 수수료율과 금액 |
-| coupon_cost | 쿠폰 비용(정액 · 정률로 실제로 깎은 금액 또는 서비스 환산 금액). 수수료와 따로 기록 |
-| settlement_month, settlement_id | 방문 처리된 달 |
+| coupon_cost | 쿠폰 비용(정액 · 정률로 실제로 깎은 금액 또는 서비스 환산 금액). 수수료와 따로 기록. 상인회 쿠폰이면 공동 기금 부담(11-25 (5)) |
+| settlement_month, settlement_id | 방문 처리된 달. 늦은 방문 처리도 원래 방문(예약) 달 |
+
+**VISIT_REPORT (방문 금액 · 미처리 신고)** — FR-STL-08, 11-25 (5)
+
+| 필드 | 설명 |
+| --- | --- |
+| id, reservation_id, customer_id | 신고한 회원과 그 예약 |
+| type | 금액(amount) · 미처리(not_processed). 미처리는 자동 취소된 예약만 |
+| claimed_amount | 금액 신고에서 회원이 말한 금액(선택) |
+| status | 접수 · 사장님 확인 요청 · 처리 완료 |
+| result, handled_at | 상인회가 기록한 결과(맞음 · 아님)와 처리 시각 |
+| created_at | 신고 시각. 그 예약 달 월 정산(SETTLEMENT)이 확정됐으면 만들 수 없음 |
+
+- 상인회 응답에는 예약 정보(가게 · 예약 번호 · 방문 일시 · 사장님이 넣은 금액 · 손님이 신고한 금액 · 사장님 답변)만 담고, 손님 이름 · 연락처는 담지 않는다(NFR-03, 11-25 (5)).
+
+**VISIT_AMOUNT_CORRECTION (방문 금액 정정)** — FR-STL-09, 11-25 (5)
+
+| 필드 | 설명 |
+| --- | --- |
+| id, reservation_id, report_id | '맞음'으로 기록된 금액 신고에 묶임 |
+| original_amount, corrected_amount | 원래 방문 금액과 정정 금액. 원래 RESERVATION · REFERRAL_FEE 기록은 그대로 |
+| fee_difference, wallet_tx_id | 수수료 차액과 그 추가 거래 |
+| settlement_month | 원래 방문(예약) 달 |
+| created_at | 사장님 정정 시각 |
 
 **SETTLEMENT (월 정산)** — FR-STL-05
 
 | 필드 | 설명 |
 | --- | --- |
 | id, region_id, month | |
-| status, confirmed_at | 집계됨 · 확정 |
+| status, confirmed_at | 집계됨 · 확정. 그 달에 처리 완료가 아닌 VISIT_REPORT가 있으면 확정할 수 없음(11-25 (5)) |
 
 ### 알림 · 설정 · 공공데이터
 
@@ -266,7 +313,7 @@ erDiagram
 | 필드 | 설명 |
 | --- | --- |
 | id, recipient_type, recipient_id | 회원 계정, 사장님 계정, 또는 비회원 예약(비회원 예약 조회에서 봄) |
-| type, payload, created_at, read_at | 예약 확정 · 변경 · 취소, 리마인드, 지연 입력, 다음 가게 추천, 쿠폰 상태 등 |
+| type, payload, created_at, read_at | 예약 확정 · 변경 · 취소, 리마인드, 지연 입력, 다음 가게 추천, 쿠폰 상태, 방문 금액 · 상인회 쿠폰 행사(11-25 (5)) 등 |
 
 **SETTING (설정값)** — NFR-04
 

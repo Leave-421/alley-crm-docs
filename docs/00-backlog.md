@@ -22,13 +22,13 @@
 
 | 담당 | 범위 | 이슈 수 | 무게 |
 | --- | --- | --- | --- |
-| A (프론트, @hhy0123) | 손님 화면, 골목 3D 스크롤 공용 컴포넌트와 지도를 쓰는 화면(손님 흐름 · 방문 흐름), 알림함 UI(손님 · 사장님 공용), 사장님 · 상인회 조회 화면 일부(예약 상세 · 건별 수수료 · 기금 적립 내역, 11-24 (5) 균형용) | 29 (여유 9) | 보드는 일러스트 기반(풀 3D 엔진 아님)이라 보통 |
-| B (프론트, @skinopero) | 프론트 기반(설정 · 라우팅 · 공통 UI · API 클라이언트), 로그인 · 가입, 사장님 · 상인회 화면(지도 화면 제외), 시연 도구 | 26 (여유 4) | 화면은 많지만 표 · 지표 위주 |
-| C (백엔드, @Choyeonik) | 백엔드 기반, 계정 · 가게 · 손님, 알림, 분석 | 22 (여유 4) | 영역은 넓고 계산은 가벼움 |
-| D (백엔드, @FG-Kaki) | DB 기반 · 설정값 · 서버 시계, 예약, 가상 잔액, 수수료 · 정산 | 19 (여유 3) | 상태 규칙이 많음 |
-| E (백엔드, @JHee0209) | 공공데이터 · 시드, 추천, 쿠폰, 소개 판정, 가상 데이터 생성 | 17 (여유 2) | 추천 계산 · 데이터 생성이 무거움 |
+| A (프론트, @hhy0123) | 손님 화면, 골목 3D 스크롤 공용 컴포넌트와 지도를 쓰는 화면(손님 흐름 · 방문 흐름), 알림함 UI(손님 · 사장님 공용), 사장님 · 상인회 조회 화면 일부(예약 상세 · 건별 수수료 · 기금 적립 내역, 11-24 (5) 균형용) | 31 (여유 9) | 보드는 일러스트 기반(풀 3D 엔진 아님)이라 보통 |
+| B (프론트, @skinopero) | 프론트 기반(설정 · 라우팅 · 공통 UI · API 클라이언트), 로그인 · 가입, 사장님 · 상인회 화면(지도 화면 제외), 시연 도구 | 29 (여유 4) | 화면은 많지만 표 · 지표 위주 |
+| C (백엔드, @Choyeonik) | 백엔드 기반, 계정 · 가게 · 손님, 알림, 분석 | 23 (여유 4) | 영역은 넓고 계산은 가벼움 |
+| D (백엔드, @FG-Kaki) | DB 기반 · 설정값 · 서버 시계, 예약, 가상 잔액, 수수료 · 정산 | 24 (여유 3) | 상태 규칙이 많음 |
+| E (백엔드, @JHee0209) | 공공데이터 · 시드, 추천, 쿠폰, 소개 판정, 가상 데이터 생성 | 20 (여유 2) | 추천 계산 · 데이터 생성이 무거움 |
 
-합계 113개. 겹치는 곳은 '쓰기만' 한다.
+합계 127개(11-25 (5)로 14개 추가: A30 · A31 · B27 ~ B29 · C23 · D20 ~ D24 · E18 ~ E20, 개발 저장소 #159 ~ #172). 겹치는 곳은 '쓰기만' 한다.
 
 - 3D 보드를 쓰는 화면(손님 지도, 손님 흐름, 방문 흐름)은 모두 A가 만든다. B는 사장님 · 상인회 메뉴에 붙이기만 한다(FR-MAP-02).
 - 알림함 UI는 A가 손님 · 사장님 둘 다 만들고, B는 메뉴에 붙이기만 한다.
@@ -75,21 +75,21 @@ C1(백엔드 설정)은 D1 · E1보다 먼저라 첫날 끝낼 크기로 잡는�
 
 ### 번호 대응
 
-2026-11-24에 개발 저장소에 105개(#4 ~ #108), 11-24 (5) 뒤 6개(#113 ~ #118), D1 분리로 D19(#120), 11-24 (7)에 B26(#128)을 더 올렸다. 백로그 ID → 이슈 번호.
+2026-11-24에 개발 저장소에 105개(#4 ~ #108), 11-24 (5) 뒤 6개(#113 ~ #118), D1 분리로 D19(#120), 11-24 (7)에 B26(#128), 11-25 (5)로 14개(#159 ~ #172)를 더 올렸다. 백로그 ID → 이슈 번호.
 
 | 담당 | 이슈 |
 | --- | --- |
-| A | A1 [#4](https://github.com/Leave-421/alley-crm/issues/4) · A2 [#7](https://github.com/Leave-421/alley-crm/issues/7) · A3 [#8](https://github.com/Leave-421/alley-crm/issues/8) · A4 [#11](https://github.com/Leave-421/alley-crm/issues/11) · A5 [#22](https://github.com/Leave-421/alley-crm/issues/22) · A6 [#26](https://github.com/Leave-421/alley-crm/issues/26) · A7 [#27](https://github.com/Leave-421/alley-crm/issues/27) · A8 [#28](https://github.com/Leave-421/alley-crm/issues/28) · A9 [#30](https://github.com/Leave-421/alley-crm/issues/30) · A10 [#32](https://github.com/Leave-421/alley-crm/issues/32) · A11 [#34](https://github.com/Leave-421/alley-crm/issues/34) · A12 [#37](https://github.com/Leave-421/alley-crm/issues/37) · A13 [#40](https://github.com/Leave-421/alley-crm/issues/40) · A14 [#41](https://github.com/Leave-421/alley-crm/issues/41) · A15 [#43](https://github.com/Leave-421/alley-crm/issues/43) · A16 [#44](https://github.com/Leave-421/alley-crm/issues/44) · A17 [#46](https://github.com/Leave-421/alley-crm/issues/46) · A18 [#47](https://github.com/Leave-421/alley-crm/issues/47) · A19 [#50](https://github.com/Leave-421/alley-crm/issues/50) · A20 [#53](https://github.com/Leave-421/alley-crm/issues/53) · A21 [#55](https://github.com/Leave-421/alley-crm/issues/55) · A22 [#57](https://github.com/Leave-421/alley-crm/issues/57) · A23 [#59](https://github.com/Leave-421/alley-crm/issues/59) · A24 [#51](https://github.com/Leave-421/alley-crm/issues/51) · A25 [#60](https://github.com/Leave-421/alley-crm/issues/60) · A26 [#61](https://github.com/Leave-421/alley-crm/issues/61) · A27 [#113](https://github.com/Leave-421/alley-crm/issues/113) · A28 [#114](https://github.com/Leave-421/alley-crm/issues/114) · A29 [#115](https://github.com/Leave-421/alley-crm/issues/115) |
-| B | B1 [#9](https://github.com/Leave-421/alley-crm/issues/9) · B2 [#10](https://github.com/Leave-421/alley-crm/issues/10) · B3 [#62](https://github.com/Leave-421/alley-crm/issues/62) · B4 [#63](https://github.com/Leave-421/alley-crm/issues/63) · B5 [#65](https://github.com/Leave-421/alley-crm/issues/65) · B6 [#66](https://github.com/Leave-421/alley-crm/issues/66) · B7 [#67](https://github.com/Leave-421/alley-crm/issues/67) · B8 [#68](https://github.com/Leave-421/alley-crm/issues/68) · B9 [#70](https://github.com/Leave-421/alley-crm/issues/70) · B10 [#72](https://github.com/Leave-421/alley-crm/issues/72) · B11 [#75](https://github.com/Leave-421/alley-crm/issues/75) · B12 [#76](https://github.com/Leave-421/alley-crm/issues/76) · B13 [#78](https://github.com/Leave-421/alley-crm/issues/78) · B14 [#83](https://github.com/Leave-421/alley-crm/issues/83) · B15 [#84](https://github.com/Leave-421/alley-crm/issues/84) · B16 [#86](https://github.com/Leave-421/alley-crm/issues/86) · B17 [#88](https://github.com/Leave-421/alley-crm/issues/88) · B18 [#90](https://github.com/Leave-421/alley-crm/issues/90) · B19 [#92](https://github.com/Leave-421/alley-crm/issues/92) · B20 [#94](https://github.com/Leave-421/alley-crm/issues/94) · B21 [#98](https://github.com/Leave-421/alley-crm/issues/98) · B22 [#100](https://github.com/Leave-421/alley-crm/issues/100) · B23 [#101](https://github.com/Leave-421/alley-crm/issues/101) · B24 [#117](https://github.com/Leave-421/alley-crm/issues/117) · B25 [#118](https://github.com/Leave-421/alley-crm/issues/118) · B26 [#128](https://github.com/Leave-421/alley-crm/issues/128) |
-| C | C1 [#5](https://github.com/Leave-421/alley-crm/issues/5) · C2 [#24](https://github.com/Leave-421/alley-crm/issues/24) · C3 [#102](https://github.com/Leave-421/alley-crm/issues/102) · C4 [#38](https://github.com/Leave-421/alley-crm/issues/38) · C5 [#64](https://github.com/Leave-421/alley-crm/issues/64) · C6 [#91](https://github.com/Leave-421/alley-crm/issues/91) · C7 [#95](https://github.com/Leave-421/alley-crm/issues/95) · C8 [#96](https://github.com/Leave-421/alley-crm/issues/96) · C9 [#73](https://github.com/Leave-421/alley-crm/issues/73) · C10 [#74](https://github.com/Leave-421/alley-crm/issues/74) · C11 [#97](https://github.com/Leave-421/alley-crm/issues/97) · C12 [#104](https://github.com/Leave-421/alley-crm/issues/104) · C13 [#39](https://github.com/Leave-421/alley-crm/issues/39) · C14 [#42](https://github.com/Leave-421/alley-crm/issues/42) · C15 [#69](https://github.com/Leave-421/alley-crm/issues/69) · C16 [#77](https://github.com/Leave-421/alley-crm/issues/77) · C17 [#56](https://github.com/Leave-421/alley-crm/issues/56) · C18 [#85](https://github.com/Leave-421/alley-crm/issues/85) · C19 [#87](https://github.com/Leave-421/alley-crm/issues/87) · C20 [#54](https://github.com/Leave-421/alley-crm/issues/54) · C21 [#99](https://github.com/Leave-421/alley-crm/issues/99) · C22 [#116](https://github.com/Leave-421/alley-crm/issues/116) |
-| D | D1 [#12](https://github.com/Leave-421/alley-crm/issues/12) · D2 [#13](https://github.com/Leave-421/alley-crm/issues/13) · D3 [#18](https://github.com/Leave-421/alley-crm/issues/18) · D4 [#14](https://github.com/Leave-421/alley-crm/issues/14) · D5 [#71](https://github.com/Leave-421/alley-crm/issues/71) · D6 [#36](https://github.com/Leave-421/alley-crm/issues/36) · D7 [#103](https://github.com/Leave-421/alley-crm/issues/103) · D8 [#105](https://github.com/Leave-421/alley-crm/issues/105) · D9 [#35](https://github.com/Leave-421/alley-crm/issues/35) · D10 [#58](https://github.com/Leave-421/alley-crm/issues/58) · D11 [#19](https://github.com/Leave-421/alley-crm/issues/19) · D12 [#31](https://github.com/Leave-421/alley-crm/issues/31) · D13 [#33](https://github.com/Leave-421/alley-crm/issues/33) · D14 [#48](https://github.com/Leave-421/alley-crm/issues/48) · D15 [#81](https://github.com/Leave-421/alley-crm/issues/81) · D16 [#82](https://github.com/Leave-421/alley-crm/issues/82) · D17 [#89](https://github.com/Leave-421/alley-crm/issues/89) · D18 [#93](https://github.com/Leave-421/alley-crm/issues/93) · D19 [#120](https://github.com/Leave-421/alley-crm/issues/120) |
-| E | E1 [#6](https://github.com/Leave-421/alley-crm/issues/6) · E2 [#16](https://github.com/Leave-421/alley-crm/issues/16) · E3 [#79](https://github.com/Leave-421/alley-crm/issues/79) · E4 [#15](https://github.com/Leave-421/alley-crm/issues/15) · E5 [#17](https://github.com/Leave-421/alley-crm/issues/17) · E6 [#20](https://github.com/Leave-421/alley-crm/issues/20) · E7 [#21](https://github.com/Leave-421/alley-crm/issues/21) · E8 [#49](https://github.com/Leave-421/alley-crm/issues/49) · E9 [#106](https://github.com/Leave-421/alley-crm/issues/106) · E10 [#52](https://github.com/Leave-421/alley-crm/issues/52) · E11 [#23](https://github.com/Leave-421/alley-crm/issues/23) · E12 [#25](https://github.com/Leave-421/alley-crm/issues/25) · E13 [#29](https://github.com/Leave-421/alley-crm/issues/29) · E14 [#45](https://github.com/Leave-421/alley-crm/issues/45) · E15 [#80](https://github.com/Leave-421/alley-crm/issues/80) · E16 [#107](https://github.com/Leave-421/alley-crm/issues/107) · E17 [#108](https://github.com/Leave-421/alley-crm/issues/108) |
+| A | A1 [#4](https://github.com/Leave-421/alley-crm/issues/4) · A2 [#7](https://github.com/Leave-421/alley-crm/issues/7) · A3 [#8](https://github.com/Leave-421/alley-crm/issues/8) · A4 [#11](https://github.com/Leave-421/alley-crm/issues/11) · A5 [#22](https://github.com/Leave-421/alley-crm/issues/22) · A6 [#26](https://github.com/Leave-421/alley-crm/issues/26) · A7 [#27](https://github.com/Leave-421/alley-crm/issues/27) · A8 [#28](https://github.com/Leave-421/alley-crm/issues/28) · A9 [#30](https://github.com/Leave-421/alley-crm/issues/30) · A10 [#32](https://github.com/Leave-421/alley-crm/issues/32) · A11 [#34](https://github.com/Leave-421/alley-crm/issues/34) · A12 [#37](https://github.com/Leave-421/alley-crm/issues/37) · A13 [#40](https://github.com/Leave-421/alley-crm/issues/40) · A14 [#41](https://github.com/Leave-421/alley-crm/issues/41) · A15 [#43](https://github.com/Leave-421/alley-crm/issues/43) · A16 [#44](https://github.com/Leave-421/alley-crm/issues/44) · A17 [#46](https://github.com/Leave-421/alley-crm/issues/46) · A18 [#47](https://github.com/Leave-421/alley-crm/issues/47) · A19 [#50](https://github.com/Leave-421/alley-crm/issues/50) · A20 [#53](https://github.com/Leave-421/alley-crm/issues/53) · A21 [#55](https://github.com/Leave-421/alley-crm/issues/55) · A22 [#57](https://github.com/Leave-421/alley-crm/issues/57) · A23 [#59](https://github.com/Leave-421/alley-crm/issues/59) · A24 [#51](https://github.com/Leave-421/alley-crm/issues/51) · A25 [#60](https://github.com/Leave-421/alley-crm/issues/60) · A26 [#61](https://github.com/Leave-421/alley-crm/issues/61) · A27 [#113](https://github.com/Leave-421/alley-crm/issues/113) · A28 [#114](https://github.com/Leave-421/alley-crm/issues/114) · A29 [#115](https://github.com/Leave-421/alley-crm/issues/115) · A30 [#163](https://github.com/Leave-421/alley-crm/issues/163) · A31 [#166](https://github.com/Leave-421/alley-crm/issues/166) |
+| B | B1 [#9](https://github.com/Leave-421/alley-crm/issues/9) · B2 [#10](https://github.com/Leave-421/alley-crm/issues/10) · B3 [#62](https://github.com/Leave-421/alley-crm/issues/62) · B4 [#63](https://github.com/Leave-421/alley-crm/issues/63) · B5 [#65](https://github.com/Leave-421/alley-crm/issues/65) · B6 [#66](https://github.com/Leave-421/alley-crm/issues/66) · B7 [#67](https://github.com/Leave-421/alley-crm/issues/67) · B8 [#68](https://github.com/Leave-421/alley-crm/issues/68) · B9 [#70](https://github.com/Leave-421/alley-crm/issues/70) · B10 [#72](https://github.com/Leave-421/alley-crm/issues/72) · B11 [#75](https://github.com/Leave-421/alley-crm/issues/75) · B12 [#76](https://github.com/Leave-421/alley-crm/issues/76) · B13 [#78](https://github.com/Leave-421/alley-crm/issues/78) · B14 [#83](https://github.com/Leave-421/alley-crm/issues/83) · B15 [#84](https://github.com/Leave-421/alley-crm/issues/84) · B16 [#86](https://github.com/Leave-421/alley-crm/issues/86) · B17 [#88](https://github.com/Leave-421/alley-crm/issues/88) · B18 [#90](https://github.com/Leave-421/alley-crm/issues/90) · B19 [#92](https://github.com/Leave-421/alley-crm/issues/92) · B20 [#94](https://github.com/Leave-421/alley-crm/issues/94) · B21 [#98](https://github.com/Leave-421/alley-crm/issues/98) · B22 [#100](https://github.com/Leave-421/alley-crm/issues/100) · B23 [#101](https://github.com/Leave-421/alley-crm/issues/101) · B24 [#117](https://github.com/Leave-421/alley-crm/issues/117) · B25 [#118](https://github.com/Leave-421/alley-crm/issues/118) · B26 [#128](https://github.com/Leave-421/alley-crm/issues/128) · B27 [#167](https://github.com/Leave-421/alley-crm/issues/167) · B28 [#168](https://github.com/Leave-421/alley-crm/issues/168) · B29 [#171](https://github.com/Leave-421/alley-crm/issues/171) |
+| C | C1 [#5](https://github.com/Leave-421/alley-crm/issues/5) · C2 [#24](https://github.com/Leave-421/alley-crm/issues/24) · C3 [#102](https://github.com/Leave-421/alley-crm/issues/102) · C4 [#38](https://github.com/Leave-421/alley-crm/issues/38) · C5 [#64](https://github.com/Leave-421/alley-crm/issues/64) · C6 [#91](https://github.com/Leave-421/alley-crm/issues/91) · C7 [#95](https://github.com/Leave-421/alley-crm/issues/95) · C8 [#96](https://github.com/Leave-421/alley-crm/issues/96) · C9 [#73](https://github.com/Leave-421/alley-crm/issues/73) · C10 [#74](https://github.com/Leave-421/alley-crm/issues/74) · C11 [#97](https://github.com/Leave-421/alley-crm/issues/97) · C12 [#104](https://github.com/Leave-421/alley-crm/issues/104) · C13 [#39](https://github.com/Leave-421/alley-crm/issues/39) · C14 [#42](https://github.com/Leave-421/alley-crm/issues/42) · C15 [#69](https://github.com/Leave-421/alley-crm/issues/69) · C16 [#77](https://github.com/Leave-421/alley-crm/issues/77) · C17 [#56](https://github.com/Leave-421/alley-crm/issues/56) · C18 [#85](https://github.com/Leave-421/alley-crm/issues/85) · C19 [#87](https://github.com/Leave-421/alley-crm/issues/87) · C20 [#54](https://github.com/Leave-421/alley-crm/issues/54) · C21 [#99](https://github.com/Leave-421/alley-crm/issues/99) · C22 [#116](https://github.com/Leave-421/alley-crm/issues/116) · C23 [#165](https://github.com/Leave-421/alley-crm/issues/165) |
+| D | D1 [#12](https://github.com/Leave-421/alley-crm/issues/12) · D2 [#13](https://github.com/Leave-421/alley-crm/issues/13) · D3 [#18](https://github.com/Leave-421/alley-crm/issues/18) · D4 [#14](https://github.com/Leave-421/alley-crm/issues/14) · D5 [#71](https://github.com/Leave-421/alley-crm/issues/71) · D6 [#36](https://github.com/Leave-421/alley-crm/issues/36) · D7 [#103](https://github.com/Leave-421/alley-crm/issues/103) · D8 [#105](https://github.com/Leave-421/alley-crm/issues/105) · D9 [#35](https://github.com/Leave-421/alley-crm/issues/35) · D10 [#58](https://github.com/Leave-421/alley-crm/issues/58) · D11 [#19](https://github.com/Leave-421/alley-crm/issues/19) · D12 [#31](https://github.com/Leave-421/alley-crm/issues/31) · D13 [#33](https://github.com/Leave-421/alley-crm/issues/33) · D14 [#48](https://github.com/Leave-421/alley-crm/issues/48) · D15 [#81](https://github.com/Leave-421/alley-crm/issues/81) · D16 [#82](https://github.com/Leave-421/alley-crm/issues/82) · D17 [#89](https://github.com/Leave-421/alley-crm/issues/89) · D18 [#93](https://github.com/Leave-421/alley-crm/issues/93) · D19 [#120](https://github.com/Leave-421/alley-crm/issues/120) · D20 [#160](https://github.com/Leave-421/alley-crm/issues/160) · D21 [#164](https://github.com/Leave-421/alley-crm/issues/164) · D22 [#169](https://github.com/Leave-421/alley-crm/issues/169) · D23 [#170](https://github.com/Leave-421/alley-crm/issues/170) · D24 [#159](https://github.com/Leave-421/alley-crm/issues/159) |
+| E | E1 [#6](https://github.com/Leave-421/alley-crm/issues/6) · E2 [#16](https://github.com/Leave-421/alley-crm/issues/16) · E3 [#79](https://github.com/Leave-421/alley-crm/issues/79) · E4 [#15](https://github.com/Leave-421/alley-crm/issues/15) · E5 [#17](https://github.com/Leave-421/alley-crm/issues/17) · E6 [#20](https://github.com/Leave-421/alley-crm/issues/20) · E7 [#21](https://github.com/Leave-421/alley-crm/issues/21) · E8 [#49](https://github.com/Leave-421/alley-crm/issues/49) · E9 [#106](https://github.com/Leave-421/alley-crm/issues/106) · E10 [#52](https://github.com/Leave-421/alley-crm/issues/52) · E11 [#23](https://github.com/Leave-421/alley-crm/issues/23) · E12 [#25](https://github.com/Leave-421/alley-crm/issues/25) · E13 [#29](https://github.com/Leave-421/alley-crm/issues/29) · E14 [#45](https://github.com/Leave-421/alley-crm/issues/45) · E15 [#80](https://github.com/Leave-421/alley-crm/issues/80) · E16 [#107](https://github.com/Leave-421/alley-crm/issues/107) · E17 [#108](https://github.com/Leave-421/alley-crm/issues/108) · E18 [#161](https://github.com/Leave-421/alley-crm/issues/161) · E19 [#162](https://github.com/Leave-421/alley-crm/issues/162) · E20 [#172](https://github.com/Leave-421/alley-crm/issues/172) |
 
 ## 이슈 목록
 
 '선행'은 먼저 끝나야 하는 이슈다. '(여유)'는 03-requirements 우선순위(11-23 (9) 확정) 기준이다.
 
-### A · 손님 화면 · 지도 화면 (29)
+### A · 손님 화면 · 지도 화면 (31)
 
 | ID | 이슈 | 화면 · 요구사항 | 선행 |
 | --- | --- | --- | --- |
@@ -122,8 +122,10 @@ C1(백엔드 설정)은 D1 · E1보다 먼저라 첫날 끝낼 크기로 잡는�
 | A27 | 사장님 예약 상세 (예약번호 · 진행 단계 · 예약금 · 쿠폰 · 취소 · 환불 기준) | O-13, FR-RSV-02 · 04 · 08 · 10 | B6, D4 |
 | A28 | 상인회 공동 기금 적립 내역 (월별 · 건별 · 확정 상태) | A-07, FR-STL-05 · 06 | B18, D17 |
 | A29 | 사장님 건별 수수료 내역 (방문 금액 · 쿠폰 할인 · 쿠폰 비용 · 수수료, 보낸 가게 숨김) | O-15, FR-STL-03 | B14, D16 |
+| A30 | 알림함 상인회 쿠폰 행사 카드 · 선착순 받기 · '마감' 표시, 예약하기 쿠폰 목록에 상인회 쿠폰 (11-25 (5)) | G-11 · 02 · 03, FR-CPN-13 · 14 | A15, A9, E19 |
+| A31 | 방문 금액 알림 · 내 예약 금액 표시 · 금액 신고 · 미처리 신고 버튼 (11-25 (5)) | G-11 · 04, FR-STL-07 · 08 | A11, A15, D21, C23 |
 
-### B · 프론트 기반 · 사장님 · 상인회 화면 (26)
+### B · 프론트 기반 · 사장님 · 상인회 화면 (29)
 
 | ID | 이슈 | 화면 · 요구사항 | 선행 |
 | --- | --- | --- | --- |
@@ -153,8 +155,11 @@ C1(백엔드 설정)은 D1 · E1보다 먼저라 첫날 끝낼 크기로 잡는�
 | B24 | 가게 정보 관리 (영업시간 · 휴무일 필수, 소개 · 메뉴 · 편의 · 좌석 · 가격대 · 사진은 여유) | O-12, FR-STO-02 | B2, C22 |
 | B25 | (여유) 예약 · 취소 분석 (사유별 취소율 · 60일 재방문율) | O-14, FR-ANL-06 · 07 | B11, C19 |
 | B26 | 넓은 화면 기본 배치(반응형): 모든 역할, 하단 탭 유지, 머리말 · 본문 폭만 넓힘, 폭 구간 · 최대 폭 토큰 | NFR-01, 11-24 (7) | B2 |
+| B27 | 상인회 쿠폰 관리: 행사 만들기 · 쓸 수 있는 가게 고르기 · 기금 예산 표시 · 중단 (화면 번호 · 배치는 B가 정함, 11-25 (5)) | A-10(임시), FR-CPN-12 | B18, E18, D20 |
+| B28 | 상인회 신고 처리: 신고 목록 · 사장님 확인 요청 · 결과 기록 (화면 번호 · 배치는 B가 정함, 11-25 (5)) | A-11(임시), FR-STL-08 | B18, C23 |
+| B29 | 사장님 신고 확인 요청 보기 · 금액 정정 · 늦은 방문 처리 (요소 위치는 임시. O-13(A27)에 두면 A27 화면에 붙이기만, 11-25 (5)) | O-10 · 13(임시), FR-STL-09 | B8, D22, D23 |
 
-### C · 백엔드 기반 · 계정 · 가게 · 손님 · 알림 · 분석 (22)
+### C · 백엔드 기반 · 계정 · 가게 · 손님 · 알림 · 분석 (23)
 
 | ID | 이슈 | 요구사항 | 선행 |
 | --- | --- | --- | --- |
@@ -180,9 +185,10 @@ C1(백엔드 설정)은 D1 · E1보다 먼저라 첫날 끝낼 크기로 잡는�
 | C20 | 방문 동선 집계 · 5명 미만 숨김 공통 | FR-ANL-03 · 05 | D11 |
 | C21 | (여유) 추가 지표 · 쿠폰 지표 | FR-ANL-08 · 09 | C19, E14 |
 | C22 | 사장님 가게 정보 · 영업 상태 · 예약 받기 변경 API (주소 · 위치는 상인회만) | FR-STO-02 | C6 |
+| C23 | 금액 · 미처리 신고 접수(정산 확정 전까지) · 상인회 확인 요청 · 결과 기록 API, 사장님 확인 요청 알림 (11-25 (5)) | FR-STL-08 | C14, D17, D24 |
 
 
-### D · DB 기반 · 예약 · 돈 (19)
+### D · DB 기반 · 예약 · 돈 (24)
 
 | ID | 이슈 | 요구사항 | 선행 |
 | --- | --- | --- | --- |
@@ -205,8 +211,13 @@ C1(백엔드 설정)은 D1 · E1보다 먼저라 첫날 끝낼 크기로 잡는�
 | D17 | 월 정산 · 확정 · 공동 기금 | FR-STL-05 | D15 |
 | D18 | 서버 시계 바꿔 끼우기 · 시연용 시각 조작 API | NFR-06, ARCHITECTURE 「서버 시각」 | D1 |
 | D19 | DB 기반 2: 고객 카드 · 공유 동의 · 예약 · 추천 기록 · 쿠폰 · 잔액 · 수수료 · 정산 · 알림 · 공공데이터 테이블 (06-data 나머지 전부) | 06-data | D1 |
+| D20 | 공동 기금 예산 잡기 · 해제 (기금 마이너스 불가, 잔액 부족 시 행사 생성 거절) (11-25 (5)) | FR-CPN-12, FR-STL-06 | D9, D24 |
+| D21 | 방문 금액 알림 보내기 (방문 처리됨 이벤트 → 회원 알림) (11-25 (5)) | FR-STL-07, FR-NTF-03 | D11, C14 |
+| D22 | 금액 정정 · 수수료 차액 추가 거래 (원래 기록 유지, 원래 달 정산) (11-25 (5)) | FR-STL-09, FR-STL-02 | D15, C23 |
+| D23 | 늦은 방문 처리 (자동 취소 → 방문, 미처리 신고 '맞음'일 때만) (11-25 (5)) | FR-STL-09, FR-RSV-02 | D11, C23 |
+| D24 | DB: 상인회 쿠폰 행사 · 쿠폰 발급 주체 · 신고 · 방문 금액 정정 테이블과 거래 종류 enum 추가 (11-25 (5)) | 06-data | D19 |
 
-### E · 공공데이터 · 추천 · 쿠폰 · 가상 데이터 (17)
+### E · 공공데이터 · 추천 · 쿠폰 · 가상 데이터 (20)
 
 | ID | 이슈 | 요구사항 | 선행 |
 | --- | --- | --- | --- |
@@ -227,6 +238,9 @@ C1(백엔드 설정)은 D1 · E1보다 먼저라 첫날 끝낼 크기로 잡는�
 | E15 | 소개 판정(제안 ID · 기준 예약 · 당일 마감) · 보낸 가게 | FR-STL-01 | E3, D12, D11 |
 | E16 | 가상 데이터 1: 손님 · 예약 · 취소 · 방문 | NFR-08 | D11 |
 | E17 | 가상 데이터 2: 이동 · 탐색 기록 · 코스 제안 · 소개 · 패턴 3개 확인 | NFR-08 | E16, E7, E15 |
+| E18 | 상인회 쿠폰 행사 만들기 · 중단 (정률은 최대 할인액 필수, 쓸 수 있는 가게, 기간) (11-25 (5)) | FR-CPN-12 | E11, D20, D24 |
+| E19 | 상인회 쿠폰 선착순 발급 · 한 사람당 1장 · 수량 원자성 · 행사 알림 · '마감' (11-25 (5)) | FR-CPN-13 | E18, E9, C14 |
+| E20 | 상인회 쿠폰 적용(쓸 수 있는 가게 · 한 장만) · 기금 부담 비용 기록 · 행사 끝 예산 반환 요청 (11-25 (5)) | FR-CPN-14 | E19, E13, E14, D20 |
 
 
 ## 아직 정하지 않은 것
