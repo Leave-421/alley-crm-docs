@@ -132,7 +132,7 @@ erDiagram
 | start_at, party_size | |
 | status | 신청 · 확정 · 방문 · 취소 |
 | cancel_reason | 손님 취소 · 가게 거절 · 자동 취소. 자동 거절은 '가게 거절' |
-| requested_at | 손님 신청 시각. 소개 예약 신청 마감(기준 가게 예약일 당일 종료) · 쿠폰 7일 판단 기준 |
+| requested_at | 손님 신청 시각. 소개 예약 신청 마감(기준 가게 예약일 당일 종료) · 쿠폰 기한 판단 기준 |
 | confirmed_at, visited_at, canceled_at | |
 | pending_start_at, pending_party_size | 변경 신청 중일 때 바꿀 값. 승인되면 반영, 거절 · 자동 거절이면 지움 |
 | deposit_amount, refund_amount | 예약금과 환불액 |
@@ -197,9 +197,13 @@ erDiagram
 
 | 필드 | 설명 |
 | --- | --- |
-| store_id, enabled | 참여 ON/OFF. 끄면 새 발급만 멈춤 |
-| benefit_type | 정액 할인 · 서비스 제공 |
+| id, store_id | 행사마다 새 id. 진행 중인(stopped_at이 비어 있는) 행사는 가게당 하나. 중단한 뒤 새 행사를 만들 수 있음(11-25) |
+| stopped_at | 사장님이 행사를 중단한 시각. 값이 있으면 새 발급만 멈추고 이미 받은 쿠폰은 기한까지 유지. 다시 켜거나 고칠 수 없음 |
+| benefit_type | 정액 할인 · 정률 할인 · 서비스 제공. 처음 확정 뒤 변경 불가 |
 | discount_amount | 정액 할인 금액 |
+| discount_rate, max_discount_amount | 정률 할인율(정수 1 ~ 50%)과 최대 할인액(비우면 상한 없음) |
+| valid_days | 쿠폰 예약 기한(1 ~ 30일, 기본 7일). 처음 확정 뒤 변경 불가 |
+| confirmed_at | 처음 확정(저장)한 시각. 값이 있으면 benefit_type · discount_amount · discount_rate · max_discount_amount · valid_days · service_name · service_value · conditions · total_quantity를 바꿀 수 없음(11-25) |
 | service_name, service_value | 서비스 내용과 환산 금액(쿠폰 비용 기록용) |
 | conditions | 사장님이 정한 조건 |
 | total_quantity, issued_count | 총수량과 발급 수. 동시 요청에도 넘지 않게 원자적으로 늘림(NFR-09) |
@@ -209,15 +213,15 @@ erDiagram
 | 필드 | 설명 |
 | --- | --- |
 | id, customer_id | 회원만 |
-| target_store_id | 혜택을 주는 가게 |
+| coupon_policy_id, target_store_id | 받은 쿠폰 행사와 혜택을 주는 가게 |
 | source_base_store_id, source_exposure_id | 받을 때의 추천 기준 가게와 추천 노출. 나중에 바뀌지 않음 |
-| downloaded_at, expires_at | 만료 = 다운로드 + 7×24시간 |
+| downloaded_at, expires_at | 만료 = 다운로드 + 가게가 정한 기간(valid_days) × 24시간 |
 | status | 다운로드됨 · 예약에 적용됨 · 사용 완료 · 기간 만료 · 적용 취소 |
 | reservation_id | 적용된 예약 |
-| discount_applied | 실제로 깎은 금액(정액은 방문 금액까지) |
+| discount_applied | 실제로 깎은 금액(정액은 방문 금액까지, 정률은 1원 미만 버림 · 최대 할인액까지) |
 | used_at | 사장님 사용 확인 시각 |
 
-- 30일 제한은 같은 회원 · 같은 대상 가게의 가장 최근 `downloaded_at`으로 계산한다. 대상 가게가 휴업 · 중단 · 탈퇴하면 제한을 풀어야 하므로, 그 전에 받은 쿠폰은 계산에서 뺀다(STORE의 상태 변경 시각 기준).
+- 30일 제한은 같은 회원 · 같은 쿠폰 행사(`coupon_policy_id`)의 가장 최근 `downloaded_at`으로 계산한다. 새 행사는 이전 행사 쿠폰과 상관없이 다시 받을 수 있다(11-25). 대상 가게가 휴업 · 중단 · 탈퇴하면 제한을 풀어야 하므로, 그 전에 받은 쿠폰은 계산에서 뺀다(STORE의 상태 변경 시각 기준).
 
 ### 가상 잔액 · 수수료 · 정산
 
@@ -245,7 +249,7 @@ erDiagram
 | receiving_store_id, sender_store_id | 낸 가게, 보낸 가게(제안을 만든 기준 예약의 가게) |
 | visit_amount, coupon_discount, fee_base | 결제 금액, 쿠폰 할인, 수수료 계산 금액(할인 후) |
 | fee_rate, fee_amount | 생성 시점의 수수료율과 금액 |
-| coupon_cost | 쿠폰 비용(정액 할인액 또는 서비스 환산 금액). 수수료와 따로 기록 |
+| coupon_cost | 쿠폰 비용(정액 · 정률로 실제로 깎은 금액 또는 서비스 환산 금액). 수수료와 따로 기록 |
 | settlement_month, settlement_id | 방문 처리된 달 |
 
 **SETTLEMENT (월 정산)** — FR-STL-05
@@ -314,7 +318,7 @@ erDiagram
 10. 소개 판정 · 수수료 · 월 정산
 11. 대시보드 지표 계산 (코스 추천 이용자의 재방문율 패턴은 시뮬레이션임을 밝힘)
 
-쿠폰 시연 사례(다운로드, 7일 만료, 30일 대기, 적용, 사용 완료, 다른 기준 가게에서 중복 차단)도 같은 원천에 포함한다.
+쿠폰 시연 사례(다운로드, 기한 만료, 30일 대기, 적용, 사용 완료, 다른 기준 가게에서 중복 차단)도 같은 원천에 포함한다.
 
 ## 남은 것
 
