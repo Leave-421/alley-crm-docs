@@ -230,7 +230,7 @@ erDiagram
 | 필드 | 설명 |
 | --- | --- |
 | id, owner_type, owner_id | 회원 손님 · 가게 · 상인회 기금. 비회원은 지갑이 없음 |
-| balance | |
+| balance | 가게는 마이너스 가능(수수료 차감, 11-25 (3)). 회원 손님은 마이너스 불가 |
 
 **WALLET_TX (거래 내역)** — FR-RSV-08, FR-STL-02
 
@@ -238,7 +238,7 @@ erDiagram
 | --- | --- |
 | id, wallet_id | 비회원 예약금은 지갑 없이 `guest_phone`으로 기록 |
 | guest_phone | 비회원 가상 납부 · 환불 기록용 |
-| type | 충전 · 예약금 납부 · 예약금 환불 · 소개 수수료 차감 · 기금 입금 |
+| type | 충전(회원 · 가게) · 예약금 납부 · 예약금 환불 · 소개 수수료 차감 · 기금 입금 |
 | amount, reservation_id, created_at | |
 
 **REFERRAL_FEE (소개 수수료)** — FR-STL-02 ~ 05
