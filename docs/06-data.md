@@ -63,7 +63,7 @@ erDiagram
 | amenities | 편의 정보, 여러 개 선택(여유) |
 | seats | 좌석 수(여유) |
 | photos | 가게 사진, 최대 3장(여유) |
-| slot_minutes, capacity_per_slot, booking_window_days | 슬롯 단위, 동시에 받는 예약 수, 예약 가능 기간 |
+| slot_minutes, capacity_per_slot, booking_window_days | 슬롯 단위, 동시에 받는 예약 수, 예약 가능 기간(booking_window_days: 1 ~ 60, 기본 30. 오늘부터 그 일수 뒤 날짜까지 포함, FR-RSV-05, 11-25 (2)) |
 | cancel_deadline_hours | 취소 마감(예약 시각 몇 시간 전). 24 이하로만 정할 수 있다(예약 시각 24시간 전보다 이르게 못 잡음) |
 | deposit_per_person | 인원당 예약금. 0 가능 |
 | max_party_size | 한 팀 최대 인원. 넘는 예약 신청은 거절(FR-RSV-05, 11-24 (5)) |
